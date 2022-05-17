@@ -6,31 +6,65 @@ function App() {
   let blogTitle = 'React Blog' ;
   let [postTitleArr,    setPostTitle      ] = useState(['20년전 오늘', '요즘 할만한 게임', '디아블로 곧 출시']) ;
   let [likeValueArr,    setLikeValue      ] = useState([0, 0, 0]) ;
-  let [modal,           setModal          ] = useState(true) ;
+  let [modal,           setModal          ] = useState(false) ;
   let [selectedPostIdx, setSelectedPostIdx] = useState(0) ;
 
+  let inputValue = '';
+
   
-  function changePostTitle() {
+  function changePostTitle() {  // 글 제목 변경
     let tempArr = [...postTitleArr] ;
     tempArr[0] = '30년전 오늘' ;
     setPostTitle(tempArr) ;
   }
-  function sortPostTitle() {
+  function sortPostTitle() { // 제목 정렬
     let tempArr = [...postTitleArr] ;
     tempArr.sort() ;
     setPostTitle(tempArr) ;
   }
-  function likeValueUp( idx ) {
+  function likeValueUp( idx ) { // 좋아요 +1
     let tempArr = [...likeValueArr] ;
     tempArr[idx] = tempArr[idx] + 1 ;
     setLikeValue( tempArr ) ;
   }
-  function showHideModal() {
+  function showHideModal() { // 모달(?) 보여줄까? 말까?
     let isView = modal ? false : true ;
     setModal(isView) ;
   }
-  function selectedPost( idx ) {
+  function selectedPost( idx ) { // 글 선택
     setSelectedPostIdx(idx) ;
+  }
+
+  function addPost() { // 글 추가
+    // 글추가
+    let tempArr = [...postTitleArr] ;
+    tempArr.unshift(inputValue) ;
+
+    // 라이크 수 추가
+    let likeTempArr = [...likeValueArr] ;
+    likeTempArr.unshift(0) ;
+
+    setPostTitle(tempArr) ;
+    setLikeValue(likeTempArr) ;
+  }
+
+  function deletePost( idx ) { // 글 삭제
+    let tempPostArr = controlArr( postTitleArr, idx ) ;
+    let tempLikeArr = controlArr( likeValueArr, idx ) ;
+    setPostTitle(tempPostArr) ;
+    setLikeValue(tempLikeArr) ;
+    
+  }
+  function controlArr( arr, idx ) { // 선택 항목 제외한 나머지 항목 재배열 -> 배열 삭제 함수 존재 하니? ㅜㅜ
+    let tempArr = [...arr] ; // 배열 복제
+    let rtnArr  = [] ;       // 리턴 배열
+
+    for ( let i = 0 ; i < tempArr.length ; i ++ ) {
+      if ( i != idx ) {
+        rtnArr.push(tempArr[i]) ;
+      }
+    }
+    return rtnArr ;
   }
 
   return (
@@ -39,7 +73,7 @@ function App() {
         <h4>{ blogTitle }</h4>
       </div>
       <button onClick={ ()=> { changePostTitle();} }>제목 변경</button>
-      <button onClick={ ()=> { sortPostTitle();  } }>정렬</button>
+      <button onClick={ ()=> { sortPostTitle();  } }>정렬 - 라이크 수 맞출려면 2차배열 필요 할듯</button>
       <button onClick={ ()=> { showHideModal();  } }>Modal</button>
 
       {/* <div className='list'>
@@ -63,11 +97,15 @@ function App() {
             <div className='list' key={ i }>
               <h4 onClick={ ()=> { setModal(true); selectedPost(i); } }>{ postTitleArr[i] } | { likeValueArr[i] }</h4>
               <button onClick={ ()=> { likeValueUp(i); } }>Like</button>
+              <button onClick={ ()=> { deletePost(i); } }>delete</button>
               <p>5월 2일 발행</p>
             </div>
           )
         })
       }
+
+      <input onChange={ (e)=>{ inputValue = e.target.value } }></input><button onClick={ ()=> { addPost() ;} }>글추가</button>
+
       {
         modal === true ? <Modal postTitle={postTitleArr} postIdx={selectedPostIdx} /> : null
       } 
