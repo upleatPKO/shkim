@@ -55,12 +55,12 @@ function App() {
     setLikeValue(tempLikeArr) ;
     
   }
-  function controlArr( arr, idx ) { // 선택 항목 제외한 나머지 항목 재배열 -> 배열 삭제 함수 존재 하니? ㅜㅜ
+  function controlArr( arr, idx ) { // 선택 항목 제외한 나머지 항목 재배열 -> 배열 삭제 함수 존재 하네 -> 레퍼런스 보자 -> tempArr.splice(인덱스, 삭제할 개수)
     let tempArr = [...arr] ; // 배열 복제
     let rtnArr  = [] ;       // 리턴 배열
-
+    
     for ( let i = 0 ; i < tempArr.length ; i ++ ) {
-      if ( i != idx ) {
+      if ( i !== idx ) {
         rtnArr.push(tempArr[i]) ;
       }
     }
