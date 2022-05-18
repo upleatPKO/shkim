@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import ContentsView from './components/ContentsView';
+import ContentView from './components/ContentView';
 
 function App() {
 
@@ -46,6 +46,10 @@ function App() {
 
     setPostTitle(tempArr) ;
     setLikeValue(likeTempArr) ;
+
+    // 입력필드 초기화
+    document.getElementById('postTxt').value = '' ;
+    inputValue = '' ;
   }
 
   function deletePost( idx ) { // 글 삭제
@@ -53,8 +57,8 @@ function App() {
     let tempLikeArr = controlArr( likeValueArr, idx ) ;
     setPostTitle(tempPostArr) ;
     setLikeValue(tempLikeArr) ;
-    
   }
+
   function controlArr( arr, idx ) { // 선택 항목 제외한 나머지 항목 재배열 -> 배열 삭제 함수 존재 하네 -> 레퍼런스 보자 -> tempArr.splice(인덱스, 삭제할 개수)
     let tempArr = [...arr] ; // 배열 복제
     let rtnArr  = [] ;       // 리턴 배열
@@ -88,10 +92,10 @@ function App() {
         })
       }
       {
-        modal === true ?  <ContentsView postTitle={postTitleArr} postIdx={selectedPostIdx} /> : null 
+        modal === true ?  <ContentView postTitle={postTitleArr} postIdx={selectedPostIdx} /> : null 
       }
       
-      <input onChange={ (e)=>{ inputValue = e.target.value } }></input>
+      <input id='postTxt' onChange={ (e)=>{ inputValue = e.target.value } }></input>
       <button onClick={ ()=> { addPost() ;} }>글추가</button> 
     </div>
   );

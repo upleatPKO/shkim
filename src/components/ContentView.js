@@ -1,12 +1,12 @@
 import React from "react";
 
-function ContentsView( props ) {
+function ContentView( props ) {
     return (
         <div className="modal">
             <h4>{ props.postTitle[props.postIdx] }</h4>
-            <p>날짜</p>
+            <p>날짜다</p>
             <p>상세내용</p>
         </div>
     )
 }
-export default ContentsView ;
+export default ContentView ;
